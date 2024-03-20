@@ -1,7 +1,7 @@
 import { SECRET_KEY } from "../config/secrets";
-import { userData } from "../services/authService";
 import { JwtPayload, verify, sign } from "jsonwebtoken";
 import { hashSync, compareSync }  from "bcrypt";
+import { userData } from "../database/userModel";
 
 export class BaseController {
   getUser(req: any): userData {
@@ -9,13 +9,13 @@ export class BaseController {
   }
 
   genToken(payload: userData){
-    return sign(payload, SECRET_KEY)
+    return sign(payload, SECRET_KEY);
   }
 
-  verifyToken(authBearer: string): string | JwtPayload {
+  verifyToken(authBearer: string): any {
     const token = authBearer.slice("Bearer ".length);
-    const verifiedToken = verify(token, SECRET_KEY);
-    return verifiedToken;
+    const jwt = verify(token, SECRET_KEY);
+    return jwt;
   }
 
   hash(password: string): string {
@@ -23,7 +23,6 @@ export class BaseController {
   }
 
   compareHash(data: string, hash: string): boolean {
-    console.log(data, hash);
     return compareSync(data, hash);
   }
 }

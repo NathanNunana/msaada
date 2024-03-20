@@ -3,3 +3,4 @@
 users.sqlite
 package-lock.json
 .env
+*.log

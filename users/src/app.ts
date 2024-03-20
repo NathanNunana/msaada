@@ -9,6 +9,6 @@ const authMiddleware = new AuthMiddleware();
 export default (app: Express) => {
   // Routes
   app.use("/api/auth", authRouter);
-  app.use("/api/user", authMiddleware.auth, userRouter);
-  app.use("/api/admin", authMiddleware.auth, adminRouter);
+  app.use("/api/user", authMiddleware.auth.bind(authMiddleware), userRouter);
+  app.use("/api/admin", authMiddleware.auth.bind(authMiddleware), adminRouter);
 };

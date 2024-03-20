@@ -2,7 +2,9 @@ import { BaseController } from "./baseController";
 import { z } from "zod";
 import { Request, Response } from "express";
 import { emailRegEx, passwordRegEx } from "../utils/constants";
-import { AuthService, userData } from "../services/authService";
+import { AuthService } from "../services/authService";
+import logger from "../config/logger";
+import { userData } from "../database/userModel";
 
 export class AuthController extends BaseController {
   authService: AuthService;
@@ -54,6 +56,7 @@ export class AuthController extends BaseController {
         user,
         token: token,
       };
+      logger.log("info", `user, with id ${user.dataValues.id} signed in`);
       res.status(200).json({
         success: true,
         data: userData,
@@ -95,6 +98,7 @@ export class AuthController extends BaseController {
       const userData: userData = resp.data;
       userData.password = this.hash(userData.password);
       user = await this.authService.createUser(userData);
+      logger.log("info", `user, with id ${user.dataValues.id} signed up`);
       res.status(201).json({
         success: true,
         data: user,

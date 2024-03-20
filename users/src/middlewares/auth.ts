@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { BaseController } from "../controllers/baseController";
-import { userData } from "../services/authService";
+import { userData } from "../database/userModel";
 
 export class AuthMiddleware extends BaseController {
   auth(req: Request, res: Response, next: NextFunction) {

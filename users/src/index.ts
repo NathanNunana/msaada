@@ -8,8 +8,11 @@ const port = process.env.PORT || 3001;
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-
 initializeApp(app);
+
+if(process.env.NODE_ENV !== "production"){
+
+}
 
 (async () => {
   try {

@@ -1,13 +1,5 @@
 import { BaseService } from "./baseService";
-import { User } from "../database/model";
-
-export interface userData {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  role?: string;
-  password: string;
-}
+import { User, userData } from "../database/userModel";
 
 export class AuthService extends BaseService {
   async createUser(data: userData): Promise<User> {
