@@ -4,13 +4,13 @@ RUN npm install -g nodemon
 
 WORKDIR /app
 
-# COPY package.json .
+COPY package.json .
 
 COPY . .
 
 RUN npm install
 
-EXPOSE 3001
+EXPOSE 3002
 
 
 CMD [ "npm", "run", "dev" ]
