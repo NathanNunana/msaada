@@ -3,13 +3,14 @@ import { MSG_QUEUE_URL, EXCHANGE, USER_SERVICE } from "../config/secrets";
 
 export class MessageBroker {
   // create a channel
-  async createChannel(): Promise<Channel | undefined> {
+  async createChannel(): Promise<Channel | null> {
     try {
       const conn = await connect(MSG_QUEUE_URL);
       const chan = await conn.createChannel();
       chan.assertExchange(EXCHANGE, "direct", { durable: true });
       return chan;
     } catch (err) {
+      return null;
       console.log(err);
     }
   }
