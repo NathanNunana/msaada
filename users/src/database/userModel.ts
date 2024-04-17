@@ -57,4 +57,4 @@ User.init(
   }
 );
 
-export default sequelize.model;
+export default User;
