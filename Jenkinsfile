@@ -19,7 +19,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh 'docker-compose -f docker-compose.yml up -d'  // Deploy the application using Docker Compose
+        sh 'docker-compose -f docker-compose.yaml up -d'  // Deploy the application using Docker Compose
       }
     }
   }
