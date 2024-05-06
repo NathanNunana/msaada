@@ -1,5 +1,5 @@
 import { Channel, connect } from "amqplib";
-import { MSG_QUEUE_URL, EXCHANGE, USER_SERVICE } from "../config/secrets";
+import { MSG_QUEUE_URL, EXCHANGE, BUDGET_SERVICE, BUDGET_QUEUE } from "../config/secrets";
 
 export class MessageBroker {
   // create a channel
@@ -11,7 +11,6 @@ export class MessageBroker {
       return chan;
     } catch (err) {
       return null;
-      console.log(err);
     }
   }
 
@@ -28,14 +27,15 @@ export class MessageBroker {
   // subscribe to messages
   async subscribeMessage(chan: Channel): Promise<void> {
     chan.assertExchange(EXCHANGE, "direct", { durable: true });
-    const q = await chan.assertQueue("", { exclusive: true });
+    const q = await chan.assertQueue(BUDGET_QUEUE, { durable: true });
     console.log(` Waiting for messages in queue: ${q.queue}`);
-    chan.bindExchange(q.queue, EXCHANGE, USER_SERVICE);
+    chan.bindQueue(q.queue, EXCHANGE, BUDGET_SERVICE);
     chan.consume(
-      EXCHANGE,
+      q.queue,
       (message) => {
         if (message?.content) {
           console.log(message.content);
+          return message.content;
         }
       },
       { noAck: true }

@@ -5,13 +5,20 @@ import { emailRegEx, passwordRegEx } from "../utils/constants";
 import { AuthService } from "../services/authService";
 import logger from "../config/logger";
 import { userData } from "../database/userModel";
+import { Channel } from "amqplib";
+import { MessageBroker } from "../utils/broker";
+import { BUDGET_SERVICE } from "../config/secrets";
 
 export class AuthController extends BaseController {
   authService: AuthService;
+  broker: MessageBroker
+  channel: Channel;
 
-  constructor() {
+  constructor(channel: Channel) {
     super();
     this.authService = new AuthService();
+    this.channel = channel;
+    this.broker = new MessageBroker();
   }
 
   async signIn(req: Request, res: Response) {
@@ -56,6 +63,7 @@ export class AuthController extends BaseController {
         user,
         token: token,
       };
+      this.broker.publishMessage(this.channel, BUDGET_SERVICE, JSON.stringify(userData))
       logger.log("info", `user, with id ${user.dataValues.id} signed in`);
       res.status(200).json({
         success: true,

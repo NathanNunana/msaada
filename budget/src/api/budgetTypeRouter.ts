@@ -1,14 +1,16 @@
 import { Router } from "express";
 import { BudgetTypeController } from "../controllers/budgetTypeController";
+import { Channel } from "amqplib";
 
 const budgetTypeRouter = Router();
-const budgetTypeController = new BudgetTypeController();
 
-budgetTypeRouter.get("/", budgetTypeController.getBudgets)
-budgetTypeRouter.post("/create", budgetTypeController.createBudget)
-budgetTypeRouter.put("/update", budgetTypeController.updateBudget)
-budgetTypeRouter.delete("/delete", budgetTypeController.deleteBudget)
-
+export const typesRoutes = (channel: Channel) => {
+  const budgetTypeController = new BudgetTypeController(channel);
+  budgetTypeRouter.get("/", budgetTypeController.getBudgetTypes);
+  budgetTypeRouter.get("/:id", budgetTypeController.getBudgetType);
+  budgetTypeRouter.post("/create", budgetTypeController.createBudgetType);
+  budgetTypeRouter.put("/update", budgetTypeController.updateBudgetType);
+  budgetTypeRouter.delete("/delete", budgetTypeController.deleteBudgetType);
+};
 
 export default budgetTypeRouter;
-

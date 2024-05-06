@@ -1,3 +1,4 @@
+import { Channel } from "amqplib";
 import logger from "../config/logger";
 import { UserService } from "../services/userService";
 import { BaseController } from "./baseController";
@@ -6,9 +7,12 @@ import z from "zod";
 
 export class UserController extends BaseController {
   userService: UserService;
-  constructor() {
+  channel: Channel;
+
+  constructor(channel: Channel) {
     super();
     this.userService = new UserService();
+    this.channel = channel;
   }
 
   async readProfile(req: Request, res: Response) {
@@ -18,8 +22,8 @@ export class UserController extends BaseController {
         success: true,
         data: user,
       });
-    } catch (err) {
-      throw err;
+    } catch(err) {
+      res.status(500).send("internal server error")
     }
   }
   async updatedProfile(req: Request, res: Response) {
@@ -43,7 +47,7 @@ export class UserController extends BaseController {
         data: updatedUser,
       });
     } catch (err) {
-      throw err;
+      res.status(500).send("internal server error")
     }
   }
 }

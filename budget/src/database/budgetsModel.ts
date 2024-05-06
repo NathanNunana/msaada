@@ -7,7 +7,7 @@ export interface BudgetI {
   budget_type: number,
   description: string,
   amount: number,
-  tags: Array<string>,
+  tags: string, // Change the data type to string
   notes: string,
   account: string,
 }
@@ -30,7 +30,18 @@ const Budget = sequelize.define("Budget", {
     allowNull: false,
   },
   tags: {
-    type: DataTypes.ARRAY,
+    type: DataTypes.STRING, // Change the data type to STRING
+    allowNull: false, // Make sure tags cannot be null
+    get() {
+      const rawValue = this.getDataValue('tags');
+      if (!rawValue) {
+        return [];
+      }
+      return JSON.parse(rawValue);
+    },
+    set(value) {
+      this.setDataValue('tags', JSON.stringify(value));
+    }
   },
   notes: {
     type: DataTypes.STRING,

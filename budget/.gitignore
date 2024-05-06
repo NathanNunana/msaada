@@ -4,3 +4,4 @@ transactions.sqlite
 package-lock.json
 .env
 *.log
+*.sqlite

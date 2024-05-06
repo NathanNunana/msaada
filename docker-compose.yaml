@@ -6,9 +6,13 @@ services:
       context: ./proxy
     depends_on:
       - users
-      - budget
+      - budgets
     ports:
-      - 80:80
+      - 8080:80
+    volumes:
+      - ./proxy:/etc/nginx/
+    networks:
+      - msaada_network
     
   users:
     build:
@@ -18,9 +22,11 @@ services:
       - '3001:3001'
     env_file: ./users/.env
     volumes:
-      - ./users:/app/users
+      - ./users:/app/
+    networks:
+      - msaada_network
 
-  budget:
+  budgets:
     build:
       dockerfile: Dockerfile
       context: ./budget
@@ -28,4 +34,13 @@ services:
       - '3002:3002'
     env_file: ./budget/.env
     volumes:
-      - ./budget:/app/budget
+      - ./budget:/app/
+    networks:
+      - msaada_network
+
+
+networks:
+  msaada_network:
+    name: msaada_network
+    external: true
+

@@ -1,5 +1,5 @@
 import { SECRET_KEY } from "../config/secrets";
-import { JwtPayload, verify, sign } from "jsonwebtoken";
+import { verify, sign } from "jsonwebtoken";
 import { hashSync, compareSync }  from "bcrypt";
 import { userData } from "../database/userModel";
 
