@@ -12,7 +12,6 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        checkout()       // Check out the source code from version control
         sh 'npm install'  // Install Node.js dependencies
         // sh 'npm run build'  // Build the Node.js application
       }
