@@ -1,16 +1,16 @@
 import { Express, Request, Response } from "express";
-import authRouter, { authRoutes } from "./api/auth";
-import userRouter, { userRoutes } from "./api/user";
-import adminRouter, { adminRoutes } from "./api/admin";
+import authRoutes from "./api/auth";
+import userRoutes from "./api/user";
+import adminRoutes from "./api/admin";
 import { AuthMiddleware } from "./middlewares/auth";
 import { Channel } from "amqplib";
 
 const authMiddleware = new AuthMiddleware();
 
 export default (app: Express, channel: Channel) => {
-  authRoutes(channel);
-  userRoutes(channel);
-  adminRoutes(channel);
+  const authRouter = authRoutes(channel);
+  const userRouter = userRoutes(channel);
+  const adminRouter = adminRoutes(channel);
 
   app.get("/", (req: Request, res: Response) => {
     res.send("User service running");
