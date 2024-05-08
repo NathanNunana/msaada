@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import z from "zod";
 import { BudgetTypeService } from "../services/budgetTypeService";
-import { Channel } from "amqplib";
+import type { Channel } from "amqplib";
 import { MessageBroker } from "../utils/broker";
 
 export class BudgetTypeController {
-  budgetTypeService: BudgetTypeService;
-  broker: MessageBroker;
-  channel: Channel | null;
+  private budgetTypeService: BudgetTypeService;
+  private broker: MessageBroker;
+  private channel: Channel;
 
   constructor(channel: Channel) {
     this.budgetTypeService = new BudgetTypeService();
@@ -17,12 +17,12 @@ export class BudgetTypeController {
 
   async createBudgetType(req: Request, res: Response) {
     const schema = z
-      .object({
-        name: z.string(),
-        description: z.string(),
-      })
-      .safeParse(req.body);
-
+    .object({
+      name: z.string(),
+      description: z.string(),
+    })
+    .safeParse(req.body);
+    
     if (!schema.success) {
       return res.status(400).json({
         success: false,
@@ -32,7 +32,8 @@ export class BudgetTypeController {
     try {
       const budgetType = await this.budgetTypeService.saveBudgetType(
         schema.data
-      );
+        );
+      res.send(budgetType);
       res.status(201).json({
         success: true,
         data: budgetType,

@@ -1,10 +1,9 @@
 import { Channel } from "amqplib";
 import { Router } from "express";
 
-const adminRouter = Router();
-
 export const adminRoutes = (channel: Channel) => {
-  
-}
+  const adminRouter = Router();
+  return adminRouter;
+};
 
-export default adminRouter;
+export default adminRoutes;

@@ -1,20 +1,19 @@
 import { Express, Request, Response } from "express";
-import budgetTypeRouter, {typesRoutes} from "./api/budgetTypeRouter";
-import budgetRouter, {routes} from "./api/budgetRouter";
-import { Channel } from "amqplib";
+import typesRoutes from "./api/budgetTypeRouter";
+import routes from "./api/budgetRouter";
+import type { Channel } from "amqplib";
 
 export default (app: Express, channel: Channel) => {
   // init channel for routers
-  typesRoutes(channel);
-  routes(channel);
+  const budgetTypeRouter = typesRoutes(channel);
+  const budgetRouter = routes(channel);
 
   // endpoint check
   app.get("/", (req: Request, res: Response) => {
     res.send("Budget service running");
   });
 
-
   // Routes
-  app.use("/api/budget-type", budgetTypeRouter)
-  app.use("/api/budget", budgetRouter)
+  app.use("/api/budget-type", budgetTypeRouter);
+  app.use("/api/budget", budgetRouter);
 };

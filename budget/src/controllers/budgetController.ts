@@ -1,21 +1,22 @@
 import { Request, Response } from "express";
 import z from "zod";
 import { BudgetService } from "../services/budgetService";
-import { Channel } from "amqplib";
+import type { Channel } from "amqplib";
 import { MessageBroker } from "../utils/broker";
 
 export class BudgetController {
-  budgetService: BudgetService;
-  broker: MessageBroker;
-  channel: Channel | null;
+  private budgetService: BudgetService;
+  private broker: MessageBroker;
+  private channel: Channel;
 
-  constructor(channel: Channel) {
+  constructor(channel:Channel) {
     this.budgetService = new BudgetService();
     this.broker = new MessageBroker();
-    this.channel = channel;
+    this.channel = channel;                                                                                                       
   }
-
+  
   async createBudget(req: Request, res: Response) {
+    console.log(this.channel)
     const schema = z
       .object({
         user_id: z.number(),
@@ -35,6 +36,7 @@ export class BudgetController {
       });
     }
     try {
+      // console.log(this.channel)
       if(!this.channel){
         return res.send("null message channel");
       }
