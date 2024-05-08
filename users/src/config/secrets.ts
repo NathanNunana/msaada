@@ -13,9 +13,7 @@ const env: NodeJS.ProcessEnv = process.env;
 const SECRET_KEY = process.env.SECRET_KEY ?? "";
 
 // MESSAGE BROKER KEYS
-const MSG_QUEUE_URL: string = (dev
-  ? env["MSG_QUEUE_URL_LOCAL"]
-  : env["MSG_QUEUE_URL"]) ?? "";
+const MSG_QUEUE_URL: string = env["MSG_QUEUE_URL"]!;
 const EXCHANGE = "msaada";
 const USER_SERVICE = "user_service";
 const BUDGET_SERVICE = "budget_service"
