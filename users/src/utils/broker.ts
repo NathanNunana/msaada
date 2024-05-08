@@ -10,6 +10,7 @@ export class MessageBroker {
       chan.assertExchange(EXCHANGE, "direct", { durable: true });
       return chan;
     } catch (err) {
+      console.log(err)
       return null;
     }
   }
