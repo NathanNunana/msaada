@@ -3,7 +3,7 @@ import initializeApp from "./app";
 import sequelize from "./database/dbConfig";
 import { MessageBroker } from "./utils/broker";
 import dbSync from "./database/dbSync";
-import { Channel } from "amqplib";
+import type { Channel } from "amqplib";
 
 const app = express();
 const port = process.env.PORT ?? 3002;
