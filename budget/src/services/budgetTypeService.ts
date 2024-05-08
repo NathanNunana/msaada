@@ -2,10 +2,12 @@ import BudgetType, { BudgetTypeI } from "../database/budgetTypeModel";
 
 export class BudgetTypeService {
   async saveBudgetType(data: BudgetTypeI) {
+    console.log("Here")
     const budget = await BudgetType.create({
       name: data.name,
       description: data.description,
     });
+    console.log(budget)
     return budget;
   }
   async updateBudgetType(data: BudgetTypeI) {
