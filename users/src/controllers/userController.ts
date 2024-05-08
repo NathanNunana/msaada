@@ -1,4 +1,4 @@
-import { Channel } from "amqplib";
+import type { Channel } from "amqplib";
 import logger from "../config/logger";
 import { UserService } from "../services/userService";
 import { BaseController } from "./baseController";
