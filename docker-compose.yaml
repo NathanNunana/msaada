@@ -6,8 +6,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-    networks:
-      - msaada_network
+    # networks:
+    #   - msaada_network
       
   users:
     build:
@@ -20,8 +20,8 @@ services:
     env_file: ./users/.env
     volumes:
       - ./users:/app/
-    networks:
-      - msaada_network
+    # networks:
+    #   - msaada_network
 
   budgets:
     build:
@@ -34,8 +34,8 @@ services:
     env_file: ./budget/.env
     volumes:
       - ./budget:/app/
-    networks:
-      - msaada_network
+    # networks:
+    #   - msaada_network
 
   proxy:
     build: 
@@ -48,10 +48,10 @@ services:
       - 8080:80
     volumes:
       - ./proxy:/etc/nginx/
-    networks:
-      - msaada_network
+    # networks:
+    #   - msaada_network
 
-networks:
-  msaada_network:
-    name: msaada_network
+# networks:
+#   msaada_network:
+#     name: msaada_network
 

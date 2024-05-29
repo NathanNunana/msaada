@@ -1,18 +1,15 @@
 import { Request, Response } from "express";
 import z from "zod";
 import { BudgetTypeService } from "../services/budgetTypeService";
-import type { Channel } from "amqplib";
 import { MessageBroker } from "../utils/broker";
 
 export class BudgetTypeController {
   private budgetTypeService: BudgetTypeService;
   private broker: MessageBroker;
-  private channel: Channel;
 
-  constructor(channel: Channel) {
+  constructor() {
     this.budgetTypeService = new BudgetTypeService();
     this.broker = new MessageBroker();
-    this.channel = channel;
   }
 
   async createBudgetType(req: Request, res: Response) {

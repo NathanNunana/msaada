@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const initMessageBroker = async () => {
   const channel:Channel | null = await mBroker.createChannel();
-  console.log(channel)
+  // console.log(channel)
   if (channel) {
     initializeApp(app, channel);
   }

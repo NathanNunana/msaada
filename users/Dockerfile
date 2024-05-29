@@ -1,16 +1,15 @@
-FROM node:latest
+FROM node:alpine
 
-RUN npm install -g nodemon
+RUN yarn global add nodemon
 
 WORKDIR /app
 
 COPY package.json .
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
 EXPOSE 3001
 
-
-CMD [ "npm", "run", "dev" ]
+CMD [ "yarn", "run", "dev" ]

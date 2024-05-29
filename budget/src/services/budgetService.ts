@@ -1,4 +1,4 @@
-import Budget, { BudgetI } from "../database/budgetsModel";
+import { Budget, BudgetI } from "../database/budgetsModel";
 
 export class BudgetService {
   async saveBudget(data: BudgetI) {

@@ -1,4 +1,4 @@
-import BudgetType, { BudgetTypeI } from "../database/budgetTypeModel";
+import { BudgetType, BudgetTypeI } from "../database/budgetTypeModel";
 
 export class BudgetTypeService {
   async saveBudgetType(data: BudgetTypeI) {

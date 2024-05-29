@@ -1,4 +1,3 @@
-import type { Channel } from "amqplib";
 import logger from "../config/logger";
 import { UserService } from "../services/userService";
 import { BaseController } from "./baseController";
@@ -7,12 +6,10 @@ import z from "zod";
 
 export class UserController extends BaseController {
   userService: UserService;
-  channel: Channel;
-
-  constructor(channel: Channel) {
+  
+  constructor() {
     super();
     this.userService = new UserService();
-    this.channel = channel;
   }
 
   async readProfile(req: Request, res: Response) {

@@ -1,5 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "./dbConfig";
+import { DataTypes, Model } from "sequelize";
+import { Database } from "./db";
+
+const db = Database.getInstance();
 
 export interface BudgetTypeI {
   id?: number,
@@ -7,7 +9,19 @@ export interface BudgetTypeI {
   description: string
 }
 
-const BudgetType = sequelize.define("BudgetType", {
+export class BudgetType extends Model {
+  declare name: string
+  declare description: string
+}
+
+BudgetType.init({
+  id: {
+    type: DataTypes.INTEGER,
+    unique: true,
+    primaryKey: true,
+    autoIncrement: true,
+
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -16,6 +30,9 @@ const BudgetType = sequelize.define("BudgetType", {
     type: DataTypes.STRING,
     allowNull: false,
   }
+}, {
+  sequelize: db.getSequelize(),
+  modelName: "BudgetType",
+  timestamps: true,
 });
 
-export default BudgetType;
