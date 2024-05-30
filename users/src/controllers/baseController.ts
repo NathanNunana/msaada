@@ -1,6 +1,6 @@
 import { SECRET_KEY } from "../config/secrets";
 import { verify, sign } from "jsonwebtoken";
-import { hashSync, compareSync }  from "bcrypt";
+import bcrypt, { hashSync, compareSync } from "bcrypt";
 import { userData } from "../database/userModel";
 
 export class BaseController {
@@ -8,7 +8,7 @@ export class BaseController {
     return req.user as userData;
   }
 
-  genToken(payload: userData){
+  genToken(payload: userData) {
     return sign(payload, SECRET_KEY);
   }
 
@@ -18,8 +18,14 @@ export class BaseController {
     return jwt;
   }
 
-  hash(password: string): string {
-    return hashSync(password, 10);
+  hash(password: string): string | null {
+    try {
+      return password
+      // return bcrypt.hashSync(password, 10);
+    } catch (err) {
+      console.log("Failed to hash password", err)
+      return null
+    }
   }
 
   compareHash(data: string, hash: string): boolean {

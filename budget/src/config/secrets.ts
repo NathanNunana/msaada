@@ -18,6 +18,12 @@ const BUDGET_SERVICE = "budget_service";
 const USER_SERVICE = "user_service";
 const BUDGET_QUEUE = "budget_queue";
 
+
+const DB_USER = env.DB_USER
+const DB_PASSWORD = env.DB_PASSWORD
+const DB_HOST = env.DB_HOST
+const DB_NAME = env.DB_NAME
+
 export {
   MSG_QUEUE_URL,
   EXCHANGE,
@@ -25,4 +31,8 @@ export {
   BUDGET_QUEUE,
   USER_SERVICE,
   SECRET_KEY,
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_NAME,
 };

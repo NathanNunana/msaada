@@ -13,6 +13,7 @@ export class AuthMiddleware extends BaseController {
     }
     try {
       const data = this.verifyToken(authBearer)
+      // @ts-ignore
       req.user = data;
       next();
     } catch (err) {

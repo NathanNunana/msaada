@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from "@sequelize/core";
 import { Database } from "./db";
 
 const db = Database.getInstance();

@@ -1,13 +1,9 @@
 import express from "express";
 import initializeApp from "./app";
-import sequelize from "./database/dbConfig";
-import dbSync from "./database/dbSync";
-import { MessageBroker } from "./utils/broker";
-import { Channel } from "amqplib";
+import { Database } from "./database/db";
 
 const app = express();
 const port = process.env.PORT ?? 3001;
-const mBroker = new MessageBroker();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,25 +12,16 @@ if (process.env.NODE_ENV !== "production") {
   //
 }
 
-
-const initMessageBroker = async () => {
-  const channel:Channel | null = await mBroker.createChannel();
-  // console.log(channel)
-  if (channel) {
-    initializeApp(app, channel);
-  }
+const startApp = async () => {
+  initializeApp(app);
 }
-
-
-const initDB = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established and synced successfully.");
-    await dbSync;
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-};
+const init = () => {
+  const db = Database.getInstance()
+  db.connect().then(() => {
+    db.migrate();
+    startApp();
+  })
+}
 
 app.listen(port, () => {
   console.log(
@@ -42,6 +29,5 @@ app.listen(port, () => {
     port,
     process.env.NODE_ENV
   );
-  initDB();
-  initMessageBroker();
+  init();
 });

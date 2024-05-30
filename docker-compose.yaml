@@ -1,20 +1,20 @@
 
 services:
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    container_name: rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # rabbitmq:
+  #   image: rabbitmq:3.13-management
+  #   container_name: rabbitmq
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
     # networks:
     #   - msaada_network
       
-  users:
+  user-srv:
     build:
       dockerfile: Dockerfile
       context: ./users
     depends_on:
-      - rabbitmq
+      - users-db
     ports:
       - 3001:3001
     env_file: ./users/.env
@@ -23,12 +23,21 @@ services:
     # networks:
     #   - msaada_network
 
-  budgets:
+  users-db:
+    image: postgres:12 
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgresql-user:/var/lib/postgresql
+      - postgresql_data-user:/var/lib/postgresql/data
+
+  budget-srv:
     build:
       dockerfile: Dockerfile
       context: ./budget
     depends_on:
-      - rabbitmq
+      - budget-db
     ports:
       - 3002:3002
     env_file: ./budget/.env
@@ -37,13 +46,22 @@ services:
     # networks:
     #   - msaada_network
 
+  budget-db:
+    image: postgres:12 
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgresql-budget:/var/lib/postgresql
+      - postgresql_data-budget:/var/lib/postgresql/data
+
   proxy:
     build: 
       dockerfile: Dockerfile
       context: ./proxy
     depends_on:
-      - users
-      - budgets
+      - user-srv
+      - budget-srv
     ports:
       - 8080:80
     volumes:
@@ -55,3 +73,8 @@ services:
 #   msaada_network:
 #     name: msaada_network
 
+volumes:
+  postgresql_data-user:
+  postgresql-user:
+  postgresql_data-budget:
+  postgresql-budget:

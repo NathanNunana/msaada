@@ -1,5 +1,7 @@
-import { DataTypes, Model } from "sequelize";
-import sequelize from "./dbConfig";
+import { DataTypes, Model } from "@sequelize/core";
+import { Database } from "./db";
+
+const db = Database.getInstance();
 
 export interface userData {
   id?: number,
@@ -51,7 +53,7 @@ User.init(
     },
   },
   {
-    sequelize,
+    sequelize: db.getSequelize(),
     modelName: "User",
     timestamps: true,
   }
